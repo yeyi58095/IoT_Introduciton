@@ -1,0 +1,60 @@
+#include <RH_RF95.h>
+#include <SoftwareSerial.h>
+
+int X;  // 辨識字節用
+const int lightSensorPin = A0; // 亮度感測器腳位（未啟用）
+int ledPin = 8;                // 控制 LED 的腳位
+
+SoftwareSerial SSerial(2, 3);  // RX, TX
+#define COMSerial SSerial
+#define ShowSerial Serial
+
+RH_RF95<SoftwareSerial> rf95(COMSerial); // LoRa 模組初始化
+
+void setup() {
+  pinMode(ledPin, OUTPUT);               // LED 腳位設為輸出
+  ShowSerial.begin(115200);              // 啟用序列埠
+  pinMode(lightSensorPin, INPUT);        // 亮度感測器設為輸入
+
+  if (!rf95.init()) {                    // 初始化 LoRa 模組
+    ShowSerial.println("init failed");
+    while (1);                           // 若失敗就卡住程式
+  }
+
+  rf95.setFrequency(433.0);              // 設定頻率為 433MHz
+}
+
+void loop() {
+  // --- 若要傳送感測值，可啟用以下 ---
+  /*
+  int sensorValue = analogRead(lightSensorPin); // 讀取亮度感測器
+  int pwmValue = map(sensorValue, 0, 1023, 255, 0); // 越暗 -> 值越大
+  uint8_t data[2] = {69, (uint8_t)pwmValue}; // 'E'=69 作為資料代碼
+  rf95.send(data, sizeof(data));        // 傳送感測資料給主端
+  rf95.waitPacketSent();
+  */
+
+  // --- 接收主端回傳的 PWM 值 ---
+  uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
+  uint8_t len = sizeof(buf);
+
+  if (rf95.waitAvailableTimeout(3000)) { // 等待主端回傳資料，最多等 3 秒
+    if (rf95.recv(buf, &len)) {
+      if (buf[0] == 69) { // 若開頭是 'E' (代表是主端傳來的 PWM 資料)
+        ShowSerial.print("主端回傳 PWM: ");
+        ShowSerial.println(buf[1]);
+
+        int pwm = buf[1];               // 擷取 PWM 值
+        int value = 255 - pwm;          // 反轉亮度（例如：主端愈亮 → LED 愈暗）
+        analogWrite(ledPin, value);     // 寫入 PWM 控制 LED 亮度
+
+        // 回傳實際控制值給主端（做確認或回饋用）
+        uint8_t dat[2] = {69, (uint8_t)value};
+        rf95.send(dat, sizeof(dat));
+        rf95.waitPacketSent();
+      }
+    }
+  }
+
+  delay(100); // 每 100ms 週期處理一次
+}

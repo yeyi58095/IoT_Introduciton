@@ -1,0 +1,100 @@
+////////////主端程式 
+#include <RH_RF95.h>
+#include <SoftwareSerial.h>
+
+int X; // 辨識字節（用來辨識傳來資料的第一個字元）
+
+SoftwareSerial SSerial(2, 3); // RX, TX
+#define COMSerial SSerial
+#define ShowSerial Serial
+
+RH_RF95<SoftwareSerial> rf95(COMSerial); // 建立 LoRa 物件
+
+void setup() {
+    ShowSerial.begin(115200);
+    ShowSerial.println("RF95 server test.");
+
+    if (!rf95.init()) {
+        ShowSerial.println("init failed");
+        while (1); // 初始化失敗則停住
+    }
+
+    rf95.setFrequency(433.0); // 設定頻率為 433 MHz
+}
+
+void loop() {
+    if (rf95.available()) {
+        // 收到資料時執行
+        uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
+        uint8_t len = sizeof(buf);
+
+        if (rf95.recv(buf, &len)) {
+            X = buf[0]; // 取出收到資料的第一個字元 (用來辨識訊息類型)
+            
+            if (X == 'A') { // 若第一個字元是 'A'
+                ShowSerial.print("got request: ");
+                ShowSerial.println((char*)buf); // 顯示整段訊息
+            }
+
+            // 如果要回覆的話可以取消以下註解
+            /*
+            uint8_t data[] = "And hello back to you";
+            rf95.send(data, sizeof(data));
+            rf95.waitPacketSent();
+            ShowSerial.println("Sent a reply");
+            */
+        } else {
+            ShowSerial.println("recv failed");
+        }
+    }
+}
+
+////////////從端程式 
+#include <RH_RF95.h>
+#include <SoftwareSerial.h>
+
+SoftwareSerial SSerial(2, 3); // RX, TX
+#define COMSerial SSerial
+#define ShowSerial Serial
+
+RH_RF95<SoftwareSerial> rf95(COMSerial); // 建立 LoRa 物件
+
+void setup() {
+    ShowSerial.begin(115200);
+    ShowSerial.println("RF95 client test.");
+
+    if (!rf95.init()) {
+        ShowSerial.println("init failed");
+        while (1); // 初始化失敗則停住
+    }
+
+    rf95.setFrequency(433.0); // 設定頻率為 433 MHz
+}
+
+void loop() {
+    ShowSerial.println("Sending to rf95_server");
+
+    // 傳送字串訊息，開頭加上 'A' 作為辨識字元
+    uint8_t data[] = "A hellow"; // <--- 修正錯誤，原來的 `"A hellow""` 有語法錯
+    rf95.send(data, sizeof(data));
+    rf95.waitPacketSent(); // 等待資料傳送完成
+
+    // 可選：等待回覆（目前註解掉）
+    /*
+    uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
+    uint8_t len = sizeof(buf);
+
+    if (rf95.waitAvailableTimeout(3000)) {
+        if (rf95.recv(buf, &len)) {
+            ShowSerial.print("got reply: ");
+            ShowSerial.println((char*)buf);
+        } else {
+            ShowSerial.println("recv failed");
+        }
+    } else {
+        ShowSerial.println("No reply, is rf95_server running?");
+    }
+    */
+
+    delay(1000); // 每秒傳送一次
+}

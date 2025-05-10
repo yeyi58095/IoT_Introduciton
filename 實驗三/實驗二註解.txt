@@ -1,0 +1,43 @@
+#include <RH_RF95.h>           // 引入 RadioHead 函式庫的 LoRa 模組驅動
+#include <SoftwareSerial.h>    // 引入軟體序列通訊函式庫
+
+SoftwareSerial SSerial(2, 3);  // 使用 GPIO 2 作為 RX、3 作為 TX 建立軟體序列埠
+#define COMSerial SSerial      // 定義 COMSerial 為軟體序列埠（給 LoRa 模組用）
+#define ShowSerial Serial      // 定義 ShowSerial 為硬體序列埠（給監控用的 Serial Monitor）
+
+// 建立 RH_RF95 LoRa 物件，使用 COMSerial 作為通訊通道
+RH_RF95<SoftwareSerial> rf95(COMSerial); 
+
+void setup() { 
+    ShowSerial.begin(115200);                    // 啟動 Serial Monitor 通訊
+    ShowSerial.println("RF95 server test.");     // 顯示啟動訊息
+
+    if (!rf95.init()) {                          // 初始化 LoRa 模組
+        ShowSerial.println("init failed");       // 如果失敗就印出錯誤訊息
+        while (1);                               // 停住程式
+    }
+
+    rf95.setFrequency(433.0);                    // 設定通訊頻率為 433MHz（視模組與區域法規而定）
+}
+
+void loop() { 
+    if (rf95.available()) {                      // 如果有接收到 LoRa 訊息
+        uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];    // 建立接收緩衝區
+        uint8_t len = sizeof(buf);               // 設定最大長度
+
+        if (rf95.recv(buf, &len)) {              // 接收訊息，如果成功
+            ShowSerial.print("got request: "); 
+            ShowSerial.println((char*)buf);      // 印出接收到的訊息內容（轉為文字）
+
+            // 可選：回覆訊息給 client
+            /*
+            uint8_t data[] = "And hello back to you"; // 要回傳的訊息內容
+            rf95.send(data, sizeof(data));            // 傳送回覆訊息
+            rf95.waitPacketSent();                    // 等待傳送完成
+            ShowSerial.println("Sent a reply");       // 印出回覆已送出的提示
+            */
+        } else {
+            ShowSerial.println("recv failed");        // 如果接收失敗就顯示錯誤
+        }
+    }
+}
