@@ -1,0 +1,111 @@
+[Lecture1]
+
+IoT Architecture:IoT 架構: 包含感知層、網路層與應用層的三層架構
+Perception Layer:感知層: 從真實世界中取得並處理資料
+Network Layer:網路層: 負責資料傳輸
+Application Layer:應用層: 負責資料處理與服務提供
+Embedded System:嵌入式系統: 包含 CPU、記憶體與 I/O 周邊，具有專用性與低功耗等特性
+Dedicated Functionality:專用功能: 嵌入式系統通常執行特定任務
+Real-time Operation:即時運作: 嵌入式系統需即時反應事件
+Resource Constraints:資源限制: 嵌入式系統通常資源有限（如記憶體、儲存空間）
+Reliability:可靠性: 系統需穩定運作並能長時間維持功能
+Low Power Consumption:低功耗: 適合長時間與行動裝置使用
+In-Circuit Serial Programming:ICSP: 一種在線燒錄微控制器的方法
+Serial Data Line:SDA: I2C 通訊協定中的資料傳輸線
+Serial Clock Line:SCL: I2C 通訊協定中的時鐘線
+Inter-Integrated Circuit:I2C: 一種串列通訊協定，使用 SDA 和 SCL 兩條線進行雙向通訊
+
+[Lecture2_1]
+
+Barcode:條碼: 利用平行線條或圖案編碼資料，可用掃描器識別，廣泛應用於物流與零售
+
+1D Barcode:一維條碼: 資訊以水平方向的條與空白表示，如 UPC（美國通用產品碼）與 EAN（國際品項編碼）
+
+2D Barcode:二維條碼: 資訊以二維圖形儲存，可容納更多資料，常見形式如 QR Code、Data Matrix
+
+Stacked Barcode:堆疊式條碼: 透過多層橫向條碼堆疊組成，可視為多條一維條碼重疊
+
+Matrix Barcode:矩陣式條碼: 使用點陣圖樣排列資料，具錯誤修正與快速解碼能力，適用於手機掃描
+
+RFID:無線射頻識別: 利用電磁場與射頻波進行非接觸式資料傳輸，可取代條碼於物流與存貨管理
+
+Passive Tag:被動式標籤: 無需電池，從讀取器接收能量啟動回應，成本低、壽命長
+
+Active Tag:主動式標籤: 內建電池可主動傳送訊號，傳輸距離遠但成本與耗電較高
+
+Near Field Communication:NFC: 一種近距離無線通訊技術，操作範圍小於 10 公分，廣泛應用於門禁、支付、身份辨識
+
+Card Emulation:卡片模擬模式: NFC 裝置模擬智慧卡，如悠遊卡或信用卡，供讀卡機感應辨識
+
+Reader/Writer:讀寫器模式: NFC 裝置作為讀卡設備，讀取或寫入支援 NFC 的被動標籤
+
+Peer-to-Peer:P2P 模式: 兩個 NFC 裝置透過無線通訊互傳資料，如手機間的檔案分享
+
+SPI:序列週邊介面: 一種主從式同步通訊協定，使用 MOSI/MISO/CLK/SS 四線傳輸，速度快、常用於感測器與記憶體
+
+UART:通用非同步收發器: 不需時鐘同步的串列通訊協定，透過 TX/RX 傳輸，常見於微控制器與電腦之間
+
+Inter-Integrated Circuit:I2C: 一種雙線同步通訊協定，透過 SDA（資料線）與 SCL（時鐘線）傳輸，支援多主多從架構，常見於嵌入式系統
+
+[Lecture2_2]
+
+Thermistor:熱敏電阻: 一種電阻值隨溫度變化的感測元件，分為 NTC（負溫度係數）與 PTC（正溫度係數）
+
+NTC Thermistor:負溫度係數熱敏電阻: 溫度上升時電阻下降，常用於溫度偵測與保護電路
+
+PTC Thermistor:正溫度係數熱敏電阻: 溫度上升時電阻上升，常用於過電流保護
+
+Thermocouple:熱電偶: 由兩種不同金屬構成，當接點處於不同溫度會產生電壓差，可用於高溫感測
+
+Integrated Circuit Temperature Sensor:感溫積體電路: 以半導體方式製成的溫度感測器，輸出電壓或數位訊號，穩定且易於整合
+
+Humidity Sensor:濕度感測器: 測量空氣中水氣含量的感測元件，常見形式為電阻式與電容式
+
+Resistive Humidity Sensor:電阻式濕度感測器: 利用感測材料的電阻隨濕度改變來測量濕度
+
+Capacitive Humidity Sensor:電容式濕度感測器: 透過濕度改變介電常數進而改變電容來測量濕度
+
+Synchronous Communication:同步通訊: 傳輸雙方共用時脈訊號，同步進行資料傳輸，如 SPI、I2C
+
+Asynchronous Communication:非同步通訊: 傳輸雙方不共享時脈，依靠起始位與停止位判斷資料區段，如 UART
+
+Simplex:單工通訊: 資料只能單向傳輸，如電視廣播
+
+Half-Duplex:半雙工通訊: 資料可雙向傳輸，但同一時間僅能一方向，如對講機
+
+Full-Duplex:全雙工通訊: 可同時進行雙向資料傳輸，如電話通話
+
+Parallel Communication:並列通訊: 多條資料線同時傳輸多位元資料，速度快但成本高，常見於短距離內部傳輸
+
+Serial Communication:串列通訊: 一條線依序傳輸資料，線材少且適用於長距離傳輸，如 UART、I2C、RS232
+
+[Lecture2_2]
+
+UART:通用非同步收發器: 一種非同步串列通訊協定，利用 TX（傳送）和 RX（接收）兩線傳輸資料。每筆資料含起始位元、資料位元（通常 8 位）、可選的同位檢查位元與停止位元。無需共享時脈，傳送速率需事先協定。
+
+RS-232:推薦標準232: UART 的電氣實作標準，採用 ±12V 電平表示邏輯 0 和 1，使用 DB9/DB25 接頭。僅支援點對點單主機連線。每筆資料透過串列方式傳送，包含起始位元、資料位元、停止位元。
+
+RS-485:推薦標準485: 支援多點總線拓撲（最多 32 個節點），使用差分訊號線（A 與 B 線），抗雜訊能力強、可達 1200 公尺。通常搭配 UART 作為資料封包核心。需設計主從架構並採輪詢或通訊協定管理總線。
+
+UART Frame Format:UART 資料框格式: 每筆資料包含以下結構：
+起始位元（Start Bit）→ 資料位元（Data Bits, 通常 8 位）→ 同位位元（可選）→ 停止位元（Stop Bit, 通常 1 或 2 位）
+
+RS232 Transmission:RS232 資料傳輸: 使用單端傳輸方式，一條線傳送電壓訊號，0 與 1 分別為 +12V 與 -12V，點對點模式適合短距離設備連接
+
+RS485 Transmission:RS485 資料傳輸: 採用差分信號方式傳輸資料，透過 A/B 兩線比較電壓差值，具有抗干擾能力，支援多設備總線連接，常用於工業自動化
+
+UART vs RS232:UART 與 RS232 比較: UART 為通訊模組本體，RS232 為其電氣層協定。UART 可透過不同實體層（如 RS232、RS485）實作。
+
+RS485 vs RS232:RS485 與 RS232 比較: RS485 支援多點、長距離、差分傳輸。RS232 僅支援點對點、短距離，抗雜訊能力弱於 RS485
+
+
+Differential Signaling:差分訊號: 同時透過兩條線傳送相反電壓訊號，接收端比較電壓差以獲取資料，具有抗雜訊與長距離優勢
+
+RS485 A/B:RS485 傳輸線: A 與 B 為互補訊號線，A > B 代表邏輯 1，A < B 代表邏輯 0
+
+TTL UART Signal:TTL UART 訊號: 使用 0V 表示邏輯 0，+3.3V 或 +5V 表示邏輯 1，與 RS232 電平相反
+
+RS232 Voltage Logic:RS232 邏輯定義: -12V 表示邏輯 1，+12V 表示邏輯 0，與 TTL UART 相反
+
+
+

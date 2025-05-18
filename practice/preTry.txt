@@ -1,0 +1,57 @@
+Lecture 1
+
+IoT的架構
+Perception layer(感知層): Acquire and Process the date from the real world
+Network layer(網路層): Data Transmission
+Application layer(應用層): Data processing and service providing
+
+嵌入式系統:
+包含了cpu、記憶體、I/O 周邊的電腦系統，且具備以下特性....
+
+
+Key characteristics of embedded systems:
+ Dedicated Functionality
+ Real-time Operation
+ Resource Constraints
+Reliability
+Low Power Consumption
+
+ICSP: In Circuit Serial Programming (在線串接燒錄)
+SDA: Serial Data Line
+SCL: Serial Clock Line
+I2C: Inter-Integrated Circuit
+---------------------------------------------------------------------------------------------------
+Lecture 2
+
+條碼
+1D: UPC, EAN
+2D: 堆疊式 矩陣式
+
+RFID: Radio Frequency Identification
+利用無線頻率 ...
+RFID的原理
+
+被動式標籤
+主動式標籤
+
+
+SPI
+UART
+I2C (Inner Integrate Circuit)
+
+NFC: Near Field Communication
+NFC Mode: Card emulation、Reader/Writer、P2P
+----------------------------------------------------------------------------------------------------------------------
+Lecture 2-2 (Sensor)
+
+溫度感測器
+ 熱敏電阻 (Thermistor) PTC，NTC
+ 熱電偶(Thermocouple) 
+ 感溫積體電路
+
+濕度感測
+	電阻是
+
+	電容式
+
+
